@@ -1,112 +1,118 @@
-import { component$ } from '@builder.io/qwik';
-import type { DocumentHead } from '@builder.io/qwik-city';
+import { component$ } from "@builder.io/qwik";
+import { type DocumentHead, routeAction$, routeLoader$, zod$ } from "@builder.io/qwik-city";
 
-import Counter from '~/components/starter/counter/counter';
-import Hero from '~/components/starter/hero/hero';
-import Infobox from '~/components/starter/infobox/infobox';
-import Starter from '~/components/starter/next-steps/next-steps';
+export const useRouteAction = routeAction$(() => {
+  return {
+    happy: "happy",
+    day: "day",
+  };
+});
+
+export const useRouteActionWithFail = routeAction$((data, requestEvent) => {
+  if (Math.random() > 1) {
+    return requestEvent.fail(500, {
+      sad: "sad",
+      errorMessage: "why",
+    });
+  }
+
+  return {
+    happy: "happy",
+    day: "day",
+  };
+});
+
+export const useRouteActionWithFailWithValidation = routeAction$((data, requestEvent) => {
+  if (Math.random() > 1) {
+    return requestEvent.fail(500, {
+      sad: "sad",
+      errorMessage: "why",
+    });
+  }
+
+  return {
+    happy: "happy",
+    day: "day",
+  };
+}, zod$({}));
+
+export const useRouteLoader = routeLoader$(() => {
+  return {
+    happy: "happy",
+    day: "day",
+  };
+});
+
+export const useRouteLoaderWithFail = routeLoader$((requestEvent) => {
+  if (Math.random() > 1) {
+    return requestEvent.fail(500, {
+      sad: "sad",
+      errorMessage: "why",
+    });
+  }
+
+  return {
+    happy: "happy",
+    day: "day",
+  };
+});
+
+export const useRouteLoaderWithFailWithValidation = routeLoader$((requestEvent) => {
+  if (Math.random() > 1) {
+    return requestEvent.fail(500, {
+      sad: "sad",
+      errorMessage: "why",
+    });
+  }
+
+  return {
+    happy: "happy",
+    day: "day",
+  };
+}, zod$({}));
 
 export default component$(() => {
-  return (
-    <>
-      <Hero />
-      <Starter />
+  const routeAction = useRouteAction();
+  routeAction.value?.happy;
+  routeAction.value?.day;
 
-      <div role="presentation" class="ellipsis"></div>
-      <div role="presentation" class="ellipsis ellipsis-purple"></div>
+  const routeActionWithFail = useRouteActionWithFail();
+  routeActionWithFail.value?.happy;
+  routeActionWithFail.value?.day;
+  routeActionWithFail.value?.sad;
+  routeActionWithFail.value?.errorMessage;
 
-      <div class="container container-center container-spacing-xl">
-        <h3>
-          You can <span class="highlight">count</span>
-          <br /> on me
-        </h3>
-        <Counter />
-      </div>
+  const routeActionWithFailWithValidation = useRouteActionWithFailWithValidation();
+  routeActionWithFailWithValidation.value?.happy;
+  routeActionWithFailWithValidation.value?.day;
+  routeActionWithFailWithValidation.value?.sad;
+  routeActionWithFailWithValidation.value?.errorMessage;
 
-      <div class="container container-flex">
-        <Infobox>
-          <div q:slot="title" class="icon icon-cli">
-            CLI Commands
-          </div>
-          <>
-            <p>
-              <code>npm run dev</code>
-              <br />
-              Starts the development server and watches for changes
-            </p>
-            <p>
-              <code>npm run preview</code>
-              <br />
-              Creates production build and starts a server to preview it
-            </p>
-            <p>
-              <code>npm run build</code>
-              <br />
-              Creates production build
-            </p>
-            <p>
-              <code>npm run qwik add</code>
-              <br />
-              Runs the qwik CLI to add integrations
-            </p>
-          </>
-        </Infobox>
+  const routeLoader = useRouteLoader();
+  routeLoader.value.happy;
+  routeLoader.value.day;
 
-        <div>
-          <Infobox>
-            <div q:slot="title" class="icon icon-apps">
-              Example Apps
-            </div>
-            <p>
-              Have a look at the <a href="/demo/flower">Flower App</a> or the{' '}
-              <a href="/demo/todolist">Todo App</a>.
-            </p>
-          </Infobox>
+  const routeLoaderWithFail = useRouteLoaderWithFail();
+  routeLoaderWithFail.value.happy;
+  routeLoaderWithFail.value.day;
+  routeLoaderWithFail.value.sad;
+  routeLoaderWithFail.value.errorMessage;
 
-          <Infobox>
-            <div q:slot="title" class="icon icon-community">
-              Community
-            </div>
-            <ul>
-              <li>
-                <span>Questions or just want to say hi? </span>
-                <a href="https://qwik.builder.io/chat" target="_blank">
-                  Chat on discord!
-                </a>
-              </li>
-              <li>
-                <span>Follow </span>
-                <a href="https://twitter.com/QwikDev" target="_blank">
-                  @QwikDev
-                </a>
-                <span> on Twitter</span>
-              </li>
-              <li>
-                <span>Open issues and contribute on </span>
-                <a href="https://github.com/BuilderIO/qwik" target="_blank">
-                  GitHub
-                </a>
-              </li>
-              <li>
-                <span>Watch </span>
-                <a href="https://qwik.builder.io/media/" target="_blank">
-                  Presentations, Podcasts, Videos, etc.
-                </a>
-              </li>
-            </ul>
-          </Infobox>
-        </div>
-      </div>
-    </>
-  );
+  const routeLoaderWithFailWithValidation = useRouteLoaderWithFailWithValidation();
+  routeLoaderWithFailWithValidation.value.happy;
+  routeLoaderWithFailWithValidation.value.day;
+  routeLoaderWithFailWithValidation.value.sad;
+  routeLoaderWithFailWithValidation.value.errorMessage;
+
+  return <></>;
 });
 
 export const head: DocumentHead = {
-  title: 'Welcome to Qwik',
+  title: "Welcome to Qwik",
   meta: [
     {
-      name: 'description',
-      content: 'Qwik site description',
+      name: "description",
+      content: "Qwik site description",
     },
   ],
 };
